@@ -1,0 +1,26 @@
+nodes:
+  - address: 192.168.15.144
+    role: [controlplane, etcd, worker]
+    user: administrator
+    ssh_key_path: ./cluster-key
+    
+services:
+  etcd:
+    snapshot: true
+    creation: 6h
+    retention: 24h
+    extra_args:
+      quota-backend-bytes: 7368709120
+  kubelet:
+    max-pods: 500
+  kube-api:
+    service_node_port_range: 30000-32767
+    always_pull_images: false
+ignore_docker_version: true
+kubernetes_version: v1.17.2-rancher1-1
+ingress:
+  provider: none
+authentication:
+  strategy: x509
+  sans:
+    - "192.168.15.144"
